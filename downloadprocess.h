@@ -28,6 +28,7 @@ protected:
     QString sizeHuman(const qint64);
     void abortProgressbar();
 private:
+    int row;
     DownloadTable *dataModel = nullptr;
     QUrl url;
     QString size;

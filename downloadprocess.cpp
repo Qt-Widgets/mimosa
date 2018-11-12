@@ -4,6 +4,7 @@
 DownloadProcess::DownloadProcess(QUrl url, DownloadTable *dataModel){
     this->dataModel = dataModel;
     this->url = url;
+    row = -1;
 
     downloadTime.start();
     manager = new QNetworkAccessManager(this);
@@ -18,7 +19,7 @@ void DownloadProcess::start(){
 }
 
 void DownloadProcess::abortProgressbar(){
-    int row = dataModel->getRowOfDownloadByName(url.fileName());
+    row = dataModel->getRowOfDownloadByName(url.fileName());
     dataModel->setData(dataModel->index(row, 1, QModelIndex()), -1, Qt::EditRole);
 }
 
@@ -86,8 +87,7 @@ void DownloadProcess::downloadProgress(qint64 received, qint64 total){
     int secondsToFinishDownload = (total-received)/downloadSpeed;
     QString timeLeft = timeHuman(secondsToFinishDownload);
 
-    QString filenameToFind = url.fileName();
-    int row = dataModel->getRowOfDownloadByName(filenameToFind);
+    row = dataModel->getRowOfDownloadByName(url.fileName());
 
     QModelIndex index = dataModel->index(row, 1, QModelIndex());
     dataModel->setData(index, progress, Qt::EditRole);
