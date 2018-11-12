@@ -26,6 +26,7 @@ public slots:
 protected:
     QString timeHuman(const int);
     QString sizeHuman(const qint64);
+    void abortProgressbar();
 private:
     DownloadTable *dataModel = nullptr;
     QUrl url;

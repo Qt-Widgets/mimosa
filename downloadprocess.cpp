@@ -17,12 +17,19 @@ void DownloadProcess::start(){
     connect(currentDownload, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(downloadProgress(qint64,qint64)));
 }
 
+void DownloadProcess::abortProgressbar(){
+    int row = dataModel->getRowOfDownloadByName(url.fileName());
+    dataModel->setData(dataModel->index(row, 1, QModelIndex()), -1, Qt::EditRole);
+}
+
 void DownloadProcess::abort(){
     disconnect(manager, SIGNAL(finished(QNetworkReply*)), this, SIGNAL(downloadFinished(QNetworkReply*)));
     disconnect(currentDownload, SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(downloadProgress(qint64,qint64)));
 
     currentDownload->abort();
     currentDownload = nullptr;
+
+    abortProgressbar();
 }
 
 QString DownloadProcess::sizeHuman(qint64 fileSize){
