@@ -15,6 +15,8 @@ protected:
     void startUpAnimation();
     void saveSettings();
     void loadSettings();
+private slots:
+    void updateDownloadAction(bool, bool);
 private:
     DownloadWidget *downloader = nullptr;
     void setup();

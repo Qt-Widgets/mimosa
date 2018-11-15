@@ -14,14 +14,17 @@
 class DownloadWidget : public QTableView{
     Q_OBJECT
 public:
-    DownloadWidget(QWidget *parent = 0);
+    DownloadWidget(QWidget *parent = nullptr);
     ~DownloadWidget();
     static QString saveFileName(QUrl&);
     static bool isHttpRedricted(QNetworkReply*);
     bool saveToDisk(const QString&, QIODevice*);
     QString getDownloadUrl();
     void download(QUrl &);
+signals:
+    void processExist(bool, bool);
 public slots:
+    void checkIfProcessExist(QModelIndex);
     void downloadFinished(QNetworkReply*);
     void showDownloadedFileLocation(QModelIndex);
     void remove();

@@ -43,6 +43,7 @@ void DownloadWidget::setup(){
     setItemDelegate(downloadPainter);
 
     connect(this, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(showDownloadedFileLocation(QModelIndex)));
+    connect(this, SIGNAL(clicked(QModelIndex)), this, SLOT(checkIfProcessExist(QModelIndex)));
 }
 
 QPair<int, QString> DownloadWidget::currentSelectedRowWithFilename(){
@@ -57,6 +58,17 @@ QPair<int, QString> DownloadWidget::currentSelectedRowWithFilename(){
     QModelIndex indexWithItemName = downloadTable->index(row, 0, QModelIndex());
     QString filename = downloadTable->data(indexWithItemName, Qt::DisplayRole).toString();
     return QPair<int, QString>(row, filename);
+}
+
+void DownloadWidget::checkIfProcessExist(QModelIndex index){
+    Q_UNUSED(index);
+
+    auto selected = currentSelectedRowWithFilename();
+    QString filename = selected.second;
+
+    bool downloadsContainsFilename = downloads.count() != 0 ?  downloads.contains(filename) : false;
+    auto processIsRunning = downloadsContainsFilename ? downloads[filename]->isRunning() : false;
+    emit processExist(downloadsContainsFilename, processIsRunning);
 }
 
 void DownloadWidget::download(QUrl &url){
@@ -76,7 +88,10 @@ void DownloadWidget::resume(){
 
     if(downloads.contains(filename)){
         auto currentDownloadProcess = downloads[filename];
-        if(!currentDownloadProcess->isRunning()) currentDownloadProcess->start();
+        if(!currentDownloadProcess->isRunning()){
+            currentDownloadProcess->start();
+            emit processExist(true, true);
+        }
     }
 }
 
@@ -88,7 +103,10 @@ void DownloadWidget::abort(){
 
     if(downloads.contains(filename)){
         auto currentDownloadProcess = downloads[filename];
-        if(currentDownloadProcess->isRunning()) currentDownloadProcess->abort();
+        if(currentDownloadProcess->isRunning()){
+            currentDownloadProcess->abort();
+            emit processExist(true, false);
+        }
     }
 }
 
@@ -148,6 +166,7 @@ void DownloadWidget::remove(){
     if(reply == QMessageBox::Yes){
         if(downloads.contains(filename)) downloads.remove(filename);
         downloadTable->removeRows(row, 1, QModelIndex());
+        checkIfProcessExist(QModelIndex());
 
         if(questionBox.checkBox()->checkState() == Qt::Checked){
             QDir fileRemover;
@@ -204,6 +223,7 @@ bool DownloadWidget::isHttpRedricted(QNetworkReply *reply){
 void DownloadWidget::downloadFinished(QNetworkReply *reply){
     QUrl url = reply->url();
     downloads.remove(url.fileName());
+    emit processExist(false, false);
 
     if(!reply->error()){
         if(isHttpRedricted(reply)) QMessageBox::information(this, "Redricted", "HTTP Redricted");

@@ -16,6 +16,8 @@ MainWindow::MainWindow(){
     setup();
     loadSettings();
     startUpAnimation();
+
+    connect(downloader, SIGNAL(processExist(bool, bool)), this, SLOT(updateDownloadAction(bool, bool)));
 }
 
 MainWindow::~MainWindow(){
@@ -45,14 +47,21 @@ void MainWindow::setup(){
     QMenu *downloadMenu = menuBar()->addMenu("Download");
 
     resume = new QAction("Resume", this);
+    resume->setEnabled(false);
     downloadMenu->addAction(resume);
     resume->setShortcut(QKeySequence("CTRL+R"));
     connect(resume, SIGNAL(triggered(bool)), downloader, SLOT(resume()));
 
     abort = new QAction("Abort", this);
+    abort->setEnabled(false);
     downloadMenu->addAction(abort);
     abort->setShortcut(QKeySequence("CTRL+A"));
     connect(abort, SIGNAL(triggered(bool)), downloader, SLOT(abort()));
+}
+
+void MainWindow::updateDownloadAction(bool processExist, bool processRunning){
+    resume->setEnabled(processExist and !processRunning);
+    abort->setEnabled(processExist and processRunning);
 }
 
 void MainWindow::startUpAnimation(){
