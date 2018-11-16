@@ -63,6 +63,11 @@ QPair<int, QString> DownloadWidget::currentSelectedRowWithFilename(){
 void DownloadWidget::checkIfProcessExist(QModelIndex index){
     Q_UNUSED(index);
 
+    if(downloads.count() == 0){
+        emit processExist(false, false);
+        return;
+    }
+
     auto selected = currentSelectedRowWithFilename();
     QString filename = selected.second;
 
