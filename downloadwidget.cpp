@@ -63,6 +63,11 @@ QPair<int, QString> DownloadWidget::currentSelectedRowWithFilename(){
 void DownloadWidget::checkIfProcessExist(QModelIndex index){
     Q_UNUSED(index);
 
+    if(downloads.size() == 0){
+        emit processExist(false, false);
+        return;
+    }
+
     auto selected = currentSelectedRowWithFilename();
     QString filename = selected.second;
 
@@ -164,7 +169,11 @@ void DownloadWidget::remove(){
 
     auto reply = questionBox.exec();
     if(reply == QMessageBox::Yes){
-        if(downloads.contains(filename)) downloads.remove(filename);
+        if(downloads.contains(filename)){
+            if(downloads[filename]->isRunning()) downloads[filename]->abort();
+            downloads.remove(filename);
+        }
+
         downloadTable->removeRows(row, 1, QModelIndex());
         checkIfProcessExist(QModelIndex());
 
