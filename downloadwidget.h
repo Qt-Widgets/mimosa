@@ -21,6 +21,8 @@ public:
     bool saveToDisk(const QString&, QIODevice*);
     QString getDownloadUrl();
     void download(QUrl &);
+    void saveSettings();
+    void loadSettings();
 signals:
     void processExist(bool, bool);
 public slots:

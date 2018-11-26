@@ -10,6 +10,7 @@
 #include <QDesktopServices>
 #include <QHBoxLayout>
 #include <QCheckBox>
+#include <QSettings>
 
 
 DownloadWidget::DownloadWidget(QWidget *parent)
@@ -17,10 +18,12 @@ DownloadWidget::DownloadWidget(QWidget *parent)
     downloadTable = new DownloadTable;
     downloadPainter = new DownloadItemDelegate;
     setup();
+    loadSettings();
     loadSession();
 }
 
 DownloadWidget::~DownloadWidget(){
+    saveSettings();
     saveSession();
 }
 
@@ -299,4 +302,20 @@ void DownloadWidget::loadSession(){
     }
 
     file.close();
+}
+
+void DownloadWidget::loadSettings(){
+    QSettings settings;
+
+    settings.beginGroup("DownloadWidget");
+    this->horizontalHeader()->restoreState(settings.value("tableSizes").toByteArray());
+    settings.endGroup();
+}
+
+void DownloadWidget::saveSettings(){
+    QSettings settings;
+
+    settings.beginGroup("DownloadWidget");
+    settings.setValue("tableSizes", this->horizontalHeader()->saveState());
+    settings.endGroup();
 }
