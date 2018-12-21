@@ -18,11 +18,10 @@ public:
     ~DownloadWidget();
     static QString saveFileName(QUrl&);
     static bool isHttpRedricted(QNetworkReply*);
+    void start(const QString);
     bool saveToDisk(const QString&, QIODevice*);
-    QString getDownloadUrl();
     void download(QUrl &);
-    void saveSettings();
-    void loadSettings();
+    int numberOfDownloadProcessRunning() const;
 signals:
     void processExist(bool, bool);
 public slots:
@@ -30,7 +29,6 @@ public slots:
     void downloadFinished(QNetworkReply*);
     void showDownloadedFileLocation(QModelIndex);
     void remove();
-    void start();
     void abort();
     void resume();
 protected:
@@ -38,6 +36,8 @@ protected:
     void insertDownloadingFilenameInTable(const QString);
     void saveSession();
     void loadSession();
+    void saveSettings();
+    void loadSettings();
 private:
     void setup();
     DownloadTable *downloadTable = nullptr;

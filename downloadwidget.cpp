@@ -147,14 +147,6 @@ void DownloadWidget::showDownloadedFileLocation(QModelIndex index){
     if(fileDialogCode != QFileDialog::AcceptOpen) QDesktopServices::openUrl(filename);
 }
 
-QString DownloadWidget::getDownloadUrl(){
-    DownloadDialog dialog;
-    QString getUrl;
-
-    if(dialog.exec()) getUrl = dialog.downloadUrl->text();
-    return getUrl;
-}
-
 void DownloadWidget::remove(){
     if(downloadTable->rowCount(QModelIndex()) == 0) return;
 
@@ -189,11 +181,15 @@ void DownloadWidget::remove(){
 
 bool DownloadWidget::saveToDisk(const QString & filename, QIODevice *data){
     QFile file(filename);
-
     if(!file.open(QIODevice::WriteOnly)) return false;
+
     file.write(data->readAll());
     file.close();
     return true;
+}
+
+int DownloadWidget::numberOfDownloadProcessRunning() const{
+    return downloads.size();
 }
 
 void DownloadWidget::insertDownloadingFilenameInTable(const QString filename){
@@ -202,8 +198,7 @@ void DownloadWidget::insertDownloadingFilenameInTable(const QString filename){
     downloadTable->setData(index, filename, Qt::EditRole);
 }
 
-void DownloadWidget::start(){
-    QString downloadUrl = getDownloadUrl();
+void DownloadWidget::start(const QString downloadUrl){
     QUrl url = QUrl::fromEncoded(downloadUrl.toLocal8Bit());
 
     if(downloadTable->filenameExist(url.fileName())){
