@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "downloaddialog.h"
 
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QDesktopWidget>
@@ -9,6 +10,7 @@
 #include <QSettings>
 
 
+
 MainWindow::MainWindow(){
     downloader = new DownloadWidget;
     setWindowTitle("Download Manager");
@@ -17,7 +19,8 @@ MainWindow::MainWindow(){
     loadSettings();
     startUpAnimation();
 
-    connect(downloader, SIGNAL(processExist(bool, bool)), this, SLOT(updateDownloadAction(bool, bool)));
+    connect(downloader, SIGNAL(processExist(bool, bool)),
+            this, SLOT(updateDownloadAction(bool, bool)));
 }
 
 MainWindow::~MainWindow(){
@@ -30,12 +33,7 @@ void MainWindow::setup(){
     add = new QAction("New", this);
     fileMenu->addAction(add);
     add->setShortcut(QKeySequence::New);
-    connect(add, SIGNAL(triggered(bool)), downloader, SLOT(start()));
-
-    remove = new QAction("Remove", this);
-    fileMenu->addAction(remove);
-    remove->setShortcut(QKeySequence::Delete);
-    connect(remove, SIGNAL(triggered(bool)), downloader, SLOT(remove()));
+    connect(add, SIGNAL(triggered(bool)), this, SLOT(newDownload()));
 
     fileMenu->addSeparator();
 
@@ -57,11 +55,73 @@ void MainWindow::setup(){
     downloadMenu->addAction(abort);
     abort->setShortcut(QKeySequence("CTRL+A"));
     connect(abort, SIGNAL(triggered(bool)), downloader, SLOT(abort()));
+
+    downloadMenu->addSeparator();
+
+    remove = new QAction("Remove", this);
+    remove->setShortcut(QKeySequence::Delete);
+    downloadMenu->addAction(remove);
+    connect(remove, SIGNAL(triggered(bool)), downloader, SLOT(remove()));
+
+    trayIcon = new QSystemTrayIcon(this);
+    trayIcon->setIcon(QIcon(":/resources/icons/download.png"));
+    trayIcon->setToolTip("Click to show manager");
+    trayIcon->setContextMenu(fileMenu);
+    trayIcon->show();
+
+    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+            this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
+}
+
+void MainWindow::newDownload(){
+    if(!this->isVisible()) this->show();
+
+    DownloadDialog downloadDialog;
+    QString url;
+
+    downloadDialog.exec();
+    url = downloadDialog.downloadUrl->text();
+
+    if(!url.isEmpty()) downloader->start(url);
 }
 
 void MainWindow::updateDownloadAction(bool processExist, bool processRunning){
     resume->setEnabled(processExist and !processRunning);
     abort->setEnabled(processExist and processRunning);
+}
+
+void MainWindow::closeEvent(QCloseEvent *event){
+    if(this->isVisible()){
+        event->ignore();
+        this->hide();
+
+        trayIcon->showMessage("Tray download manager",
+                              "The manager will be working in the background, "
+                              "click to show window, add a new download "
+                              "or exit from the program.",
+                              QSystemTrayIcon::MessageIcon::Information,
+                              2000);
+    }
+}
+
+void MainWindow::trayIconActivated(QSystemTrayIcon::ActivationReason reason){
+    switch(reason){
+        case QSystemTrayIcon::Trigger:
+            this->isVisible() ? this->hide() : this->show();
+            break;
+        case QSystemTrayIcon::MiddleClick:{
+            int numberOfProcess = downloader->numberOfDownloadProcessRunning();
+            QString statusMessage = numberOfProcess == 0 ? "No download process currently working"
+                                                         : tr("%1 process currently working").arg(numberOfProcess);
+            trayIcon->showMessage("Download status",
+                                  statusMessage,
+                                  QSystemTrayIcon::MessageIcon::Information,
+                                  2000);
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 void MainWindow::startUpAnimation(){

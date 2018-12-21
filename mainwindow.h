@@ -1,9 +1,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-
 #include "downloadwidget.h"
+
+#include <QMainWindow>
+#include <QSystemTrayIcon>
+#include <QCloseEvent>
 
 
 class MainWindow : public QMainWindow{
@@ -15,8 +17,11 @@ protected:
     void startUpAnimation();
     void saveSettings();
     void loadSettings();
+    void closeEvent(QCloseEvent*);
 private slots:
+    void newDownload();
     void updateDownloadAction(bool, bool);
+    void trayIconActivated(QSystemTrayIcon::ActivationReason);
 private:
     DownloadWidget *downloader = nullptr;
     void setup();
@@ -24,6 +29,7 @@ private:
     QAction *remove = nullptr;
     QAction *abort = nullptr;
     QAction *resume = nullptr;
+    QSystemTrayIcon *trayIcon = nullptr;
 
 };
 
