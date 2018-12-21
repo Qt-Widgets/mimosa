@@ -1,5 +1,4 @@
 #include "downloadwidget.h"
-#include "downloaddialog.h"
 
 #include <QMessageBox>
 #include <QHeaderView>
