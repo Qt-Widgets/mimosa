@@ -1,5 +1,4 @@
-QT = core gui
-QT += network
+QT = core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -8,7 +7,7 @@ HEADERS += \
     downloaddialog.h \
     downloadprocess.h \
     downloadtable.h \
-    downloadwidget.h \
+    mimosa.h \
     downloaditemdelegate.h
 
 SOURCES += \
@@ -16,7 +15,7 @@ SOURCES += \
     main.cpp \
     downloaddialog.cpp \
     downloadprocess.cpp \
-    downloadwidget.cpp \
+    mimosa.cpp \
     downloadtable.cpp \
     downloaditemdelegate.cpp
 
