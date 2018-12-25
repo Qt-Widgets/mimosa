@@ -301,7 +301,7 @@ void Mimosa::loadSession(){
 void Mimosa::loadSettings(){
     QSettings settings;
 
-    settings.beginGroup("DownloadWidget");
+    settings.beginGroup("Mimosa");
     this->horizontalHeader()->restoreState(settings.value("tableSizes").toByteArray());
     settings.endGroup();
 }
@@ -309,7 +309,7 @@ void Mimosa::loadSettings(){
 void Mimosa::saveSettings(){
     QSettings settings;
 
-    settings.beginGroup("DownloadWidget");
+    settings.beginGroup("Mimosa");
     settings.setValue("tableSizes", this->horizontalHeader()->saveState());
     settings.endGroup();
 }
