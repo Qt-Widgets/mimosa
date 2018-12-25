@@ -9,8 +9,8 @@ int main(int argc, char ** argv){
 
     app.setWindowIcon(QIcon(":/resources/icons/mimosa.png"));
 
-    MainWindow downloadManager;
-    downloadManager.show();
+    MainWindow main_window;
+    main_window.show();
 
     return app.exec();
 }
