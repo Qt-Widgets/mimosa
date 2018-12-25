@@ -11,11 +11,11 @@
 #include "downloadprocess.h"
 
 
-class DownloadWidget : public QTableView{
+class Mimosa : public QTableView{
     Q_OBJECT
 public:
-    DownloadWidget(QWidget *parent = nullptr);
-    ~DownloadWidget();
+    Mimosa(QWidget *parent = nullptr);
+    ~Mimosa();
     static QString saveFileName(QUrl&);
     static bool isHttpRedricted(QNetworkReply*);
     void start(const QString);

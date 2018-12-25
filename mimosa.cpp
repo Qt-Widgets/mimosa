@@ -1,4 +1,4 @@
-#include "downloadwidget.h"
+#include "mimosa.h"
 
 #include <QMessageBox>
 #include <QHeaderView>
@@ -12,7 +12,7 @@
 #include <QSettings>
 
 
-DownloadWidget::DownloadWidget(QWidget *parent)
+Mimosa::Mimosa(QWidget *parent)
     : QTableView(parent){
     downloadTable = new DownloadTable;
     downloadPainter = new DownloadItemDelegate;
@@ -21,12 +21,12 @@ DownloadWidget::DownloadWidget(QWidget *parent)
     loadSession();
 }
 
-DownloadWidget::~DownloadWidget(){
+Mimosa::~Mimosa(){
     saveSettings();
     saveSession();
 }
 
-void DownloadWidget::setup(){
+void Mimosa::setup(){
     proxy = new QSortFilterProxyModel(this);
     proxy->setSourceModel(downloadTable);
     proxy->setFilterKeyColumn(0);
@@ -48,7 +48,7 @@ void DownloadWidget::setup(){
     connect(this, SIGNAL(clicked(QModelIndex)), this, SLOT(checkIfProcessExist(QModelIndex)));
 }
 
-QPair<int, QString> DownloadWidget::currentSelectedRowWithFilename(){
+QPair<int, QString> Mimosa::currentSelectedRowWithFilename(){
     QSortFilterProxyModel *proxySelected = static_cast<QSortFilterProxyModel*>(this->model());
     QItemSelectionModel *selectionModel = this->selectionModel();
 
@@ -62,7 +62,7 @@ QPair<int, QString> DownloadWidget::currentSelectedRowWithFilename(){
     return QPair<int, QString>(row, filename);
 }
 
-void DownloadWidget::checkIfProcessExist(QModelIndex index){
+void Mimosa::checkIfProcessExist(QModelIndex index){
     Q_UNUSED(index);
 
     if(downloads.size() == 0){
@@ -78,7 +78,7 @@ void DownloadWidget::checkIfProcessExist(QModelIndex index){
     emit processExist(downloadsContainsFilename, processIsRunning);
 }
 
-void DownloadWidget::download(QUrl &url){
+void Mimosa::download(QUrl &url){
     DownloadProcess *downloadProcess;
     downloadProcess = new DownloadProcess(url, downloadTable);
     downloadProcess->start();
@@ -87,7 +87,7 @@ void DownloadWidget::download(QUrl &url){
     connect(downloadProcess, SIGNAL(downloadFinished(QNetworkReply*)), this, SLOT(downloadFinished(QNetworkReply*)));
 }
 
-void DownloadWidget::resume(){
+void Mimosa::resume(){
     if(downloads.count() == 0) return;
 
     auto selected = currentSelectedRowWithFilename();
@@ -102,7 +102,7 @@ void DownloadWidget::resume(){
     }
 }
 
-void DownloadWidget::abort(){
+void Mimosa::abort(){
     if(downloads.count() == 0) return;
 
     auto selected = currentSelectedRowWithFilename();
@@ -117,7 +117,7 @@ void DownloadWidget::abort(){
     }
 }
 
-QString DownloadWidget::saveFileName(QUrl & url){
+QString Mimosa::saveFileName(QUrl & url){
     QString path = url.path();
     QString filename = QFileInfo(path).fileName();
     if(filename.isEmpty()) filename = "download";
@@ -133,7 +133,7 @@ QString DownloadWidget::saveFileName(QUrl & url){
     return filename;
 }
 
-void DownloadWidget::showDownloadedFileLocation(QModelIndex index){
+void Mimosa::showDownloadedFileLocation(QModelIndex index){
     Q_UNUSED(index);
 
     auto selected = currentSelectedRowWithFilename();
@@ -146,7 +146,7 @@ void DownloadWidget::showDownloadedFileLocation(QModelIndex index){
     if(fileDialogCode != QFileDialog::AcceptOpen) QDesktopServices::openUrl(filename);
 }
 
-void DownloadWidget::remove(){
+void Mimosa::remove(){
     if(downloadTable->rowCount(QModelIndex()) == 0) return;
 
     auto selected = currentSelectedRowWithFilename();
@@ -178,7 +178,7 @@ void DownloadWidget::remove(){
     }
 }
 
-bool DownloadWidget::saveToDisk(const QString & filename, QIODevice *data){
+bool Mimosa::saveToDisk(const QString & filename, QIODevice *data){
     QFile file(filename);
     if(!file.open(QIODevice::WriteOnly)) return false;
 
@@ -187,17 +187,17 @@ bool DownloadWidget::saveToDisk(const QString & filename, QIODevice *data){
     return true;
 }
 
-int DownloadWidget::numberOfDownloadProcessRunning() const{
+int Mimosa::numberOfDownloadProcessRunning() const{
     return downloads.size();
 }
 
-void DownloadWidget::insertDownloadingFilenameInTable(const QString filename){
+void Mimosa::insertDownloadingFilenameInTable(const QString filename){
     downloadTable->insertRows(0, 1, QModelIndex());
     QModelIndex index = downloadTable->index(0, 0, QModelIndex());
     downloadTable->setData(index, filename, Qt::EditRole);
 }
 
-void DownloadWidget::start(const QString downloadUrl){
+void Mimosa::start(const QString downloadUrl){
     QUrl url = QUrl::fromEncoded(downloadUrl.toLocal8Bit());
 
     if(downloadTable->filenameExist(url.fileName())){
@@ -220,13 +220,13 @@ void DownloadWidget::start(const QString downloadUrl){
     }
 }
 
-bool DownloadWidget::isHttpRedricted(QNetworkReply *reply){
+bool Mimosa::isHttpRedricted(QNetworkReply *reply){
     int httpCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     return httpCode == 301 || httpCode == 302 || httpCode == 303
             || httpCode == 305 || httpCode == 307 || httpCode == 308;
 }
 
-void DownloadWidget::downloadFinished(QNetworkReply *reply){
+void Mimosa::downloadFinished(QNetworkReply *reply){
     QUrl url = reply->url();
     downloads.remove(url.fileName());
     emit processExist(false, false);
@@ -241,7 +241,7 @@ void DownloadWidget::downloadFinished(QNetworkReply *reply){
     } else QMessageBox::warning(this, "Error", tr("Download error %1").arg(reply->errorString()));
 }
 
-void DownloadWidget::saveSession(){
+void Mimosa::saveSession(){
     QFile file(".downloadManagerSession");
 
     if(file.open(QIODevice::WriteOnly)){
@@ -265,7 +265,7 @@ void DownloadWidget::saveSession(){
     file.close();
 }
 
-void DownloadWidget::loadSession(){
+void Mimosa::loadSession(){
     QFile file(".downloadManagerSession");
 
     if(file.open(QIODevice::ReadOnly)){
@@ -298,7 +298,7 @@ void DownloadWidget::loadSession(){
     file.close();
 }
 
-void DownloadWidget::loadSettings(){
+void Mimosa::loadSettings(){
     QSettings settings;
 
     settings.beginGroup("DownloadWidget");
@@ -306,7 +306,7 @@ void DownloadWidget::loadSettings(){
     settings.endGroup();
 }
 
-void DownloadWidget::saveSettings(){
+void Mimosa::saveSettings(){
     QSettings settings;
 
     settings.beginGroup("DownloadWidget");

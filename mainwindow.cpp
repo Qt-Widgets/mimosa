@@ -12,14 +12,14 @@
 
 
 MainWindow::MainWindow(){
-    downloader = new DownloadWidget;
-    setWindowTitle("Download Manager");
-    setCentralWidget(downloader);
+    mimosa = new Mimosa;
+    setWindowTitle("Mimosa");
+    setCentralWidget(mimosa);
     setup();
     loadSettings();
     startUpAnimation();
 
-    connect(downloader, SIGNAL(processExist(bool, bool)),
+    connect(mimosa, SIGNAL(processExist(bool, bool)),
             this, SLOT(updateDownloadAction(bool, bool)));
 }
 
@@ -48,24 +48,24 @@ void MainWindow::setup(){
     resume->setEnabled(false);
     downloadMenu->addAction(resume);
     resume->setShortcut(QKeySequence("CTRL+R"));
-    connect(resume, SIGNAL(triggered(bool)), downloader, SLOT(resume()));
+    connect(resume, SIGNAL(triggered(bool)), mimosa, SLOT(resume()));
 
     abort = new QAction("Abort", this);
     abort->setEnabled(false);
     downloadMenu->addAction(abort);
     abort->setShortcut(QKeySequence("CTRL+A"));
-    connect(abort, SIGNAL(triggered(bool)), downloader, SLOT(abort()));
+    connect(abort, SIGNAL(triggered(bool)), mimosa, SLOT(abort()));
 
     downloadMenu->addSeparator();
 
     remove = new QAction("Remove", this);
     remove->setShortcut(QKeySequence::Delete);
     downloadMenu->addAction(remove);
-    connect(remove, SIGNAL(triggered(bool)), downloader, SLOT(remove()));
+    connect(remove, SIGNAL(triggered(bool)), mimosa, SLOT(remove()));
 
     trayIcon = new QSystemTrayIcon(this);
     trayIcon->setIcon(QIcon(":/resources/icons/download.png"));
-    trayIcon->setToolTip("Click to show manager");
+    trayIcon->setToolTip("Click to show Mimosa");
     trayIcon->setContextMenu(fileMenu);
     trayIcon->show();
 
@@ -82,7 +82,7 @@ void MainWindow::newDownload(){
     downloadDialog.exec();
     url = downloadDialog.downloadUrl->text();
 
-    if(!url.isEmpty()) downloader->start(url);
+    if(!url.isEmpty()) mimosa->start(url);
 }
 
 void MainWindow::updateDownloadAction(bool processExist, bool processRunning){
@@ -95,8 +95,8 @@ void MainWindow::closeEvent(QCloseEvent *event){
         event->ignore();
         this->hide();
 
-        trayIcon->showMessage("Tray download manager",
-                              "The manager will be working in the background, "
+        trayIcon->showMessage("Tray program",
+                              "The Mimosa will be working in the background, "
                               "click to show window, add a new download "
                               "or exit from the program.",
                               QSystemTrayIcon::MessageIcon::Information,
@@ -110,7 +110,7 @@ void MainWindow::trayIconActivated(QSystemTrayIcon::ActivationReason reason){
             this->isVisible() ? this->hide() : this->show();
             break;
         case QSystemTrayIcon::MiddleClick:{
-            int numberOfProcess = downloader->numberOfDownloadProcessRunning();
+            int numberOfProcess = mimosa->numberOfDownloadProcessRunning();
             QString statusMessage = numberOfProcess == 0 ? "No download process currently working"
                                                          : tr("%1 process currently working").arg(numberOfProcess);
             trayIcon->showMessage("Download status",
@@ -134,7 +134,7 @@ void MainWindow::startUpAnimation(){
 }
 
 void MainWindow::saveSettings(){
-    QSettings settings("Download Manager", "Dimensions");
+    QSettings settings("Mimosa", "Dimensions");
 
     settings.beginGroup("MainWindow");
     settings.setValue("size", size());
@@ -143,7 +143,7 @@ void MainWindow::saveSettings(){
 }
 
 void MainWindow::loadSettings(){
-    QSettings settings("Download Manager", "Dimensions");
+    QSettings settings("Mimosa", "Dimensions");
 
     settings.beginGroup("MainWindow");
     resize(settings.value("size", QSize(960, 640)).toSize());

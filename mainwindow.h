@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "downloadwidget.h"
+#include "mimosa.h"
 
 #include <QMainWindow>
 #include <QSystemTrayIcon>
@@ -23,7 +23,7 @@ private slots:
     void updateDownloadAction(bool, bool);
     void trayIconActivated(QSystemTrayIcon::ActivationReason);
 private:
-    DownloadWidget *downloader = nullptr;
+    Mimosa *mimosa = nullptr;
     void setup();
     QAction *add = nullptr;
     QAction *remove = nullptr;
