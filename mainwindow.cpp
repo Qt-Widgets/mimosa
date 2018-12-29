@@ -60,6 +60,7 @@ void MainWindow::setup(){
 
     remove = new QAction("Remove", this);
     remove->setShortcut(QKeySequence::Delete);
+    remove->setEnabled(!mimosa->tableIsEmpty());
     downloadMenu->addAction(remove);
     connect(remove, SIGNAL(triggered(bool)), mimosa, SLOT(remove()));
 
@@ -88,6 +89,7 @@ void MainWindow::newDownload(){
 void MainWindow::updateDownloadAction(bool processExist, bool processRunning){
     resume->setEnabled(processExist and !processRunning);
     abort->setEnabled(processExist and processRunning);
+    remove->setEnabled(!mimosa->tableIsEmpty());
 }
 
 void MainWindow::closeEvent(QCloseEvent *event){
