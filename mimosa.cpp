@@ -96,8 +96,6 @@ void Mimosa::download(QUrl &url){
 }
 
 void Mimosa::resume(){
-    if(downloads.count() == 0) return;
-
     auto selected = currentSelectedRowWithFilename();
     QString filename = selected.second;
 
@@ -111,8 +109,6 @@ void Mimosa::resume(){
 }
 
 void Mimosa::abort(){
-    if(downloads.count() == 0) return;
-
     auto selected = currentSelectedRowWithFilename();
     QString filename = selected.second;
 
