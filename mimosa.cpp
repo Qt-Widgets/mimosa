@@ -26,6 +26,14 @@ Mimosa::~Mimosa(){
     saveSession();
 }
 
+int Mimosa::numberOfDownloadProcessRunning() const{
+    return downloads.size();
+}
+
+bool Mimosa::tableIsEmpty() const{
+    return downloadTable->rowCount(QModelIndex()) == 0;
+}
+
 void Mimosa::setup(){
     proxy = new QSortFilterProxyModel(this);
     proxy->setSourceModel(downloadTable);
@@ -88,8 +96,6 @@ void Mimosa::download(QUrl &url){
 }
 
 void Mimosa::resume(){
-    if(downloads.count() == 0) return;
-
     auto selected = currentSelectedRowWithFilename();
     QString filename = selected.second;
 
@@ -103,8 +109,6 @@ void Mimosa::resume(){
 }
 
 void Mimosa::abort(){
-    if(downloads.count() == 0) return;
-
     auto selected = currentSelectedRowWithFilename();
     QString filename = selected.second;
 
@@ -147,8 +151,6 @@ void Mimosa::showDownloadedFileLocation(QModelIndex index){
 }
 
 void Mimosa::remove(){
-    if(downloadTable->rowCount(QModelIndex()) == 0) return;
-
     auto selected = currentSelectedRowWithFilename();
     int row = selected.first;
     QString filename = selected.second;
@@ -187,9 +189,6 @@ bool Mimosa::saveToDisk(const QString & filename, QIODevice *data){
     return true;
 }
 
-int Mimosa::numberOfDownloadProcessRunning() const{
-    return downloads.size();
-}
 
 void Mimosa::insertDownloadingFilenameInTable(const QString filename){
     downloadTable->insertRows(0, 1, QModelIndex());

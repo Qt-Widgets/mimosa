@@ -22,6 +22,7 @@ public:
     bool saveToDisk(const QString&, QIODevice*);
     void download(QUrl &);
     int numberOfDownloadProcessRunning() const;
+    bool tableIsEmpty() const;
 signals:
     void processExist(bool, bool);
 public slots:
