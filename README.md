@@ -20,11 +20,11 @@ Make sure you have already <b>build-essential</b> package installed, it is essen
 
 ```bash
 cd ~/
-git clone https://github.com/blooser/Mimosa.git
-cd Mimosa/
+git clone https://github.com/blooser/mimosa.git
+cd mimosa/
 qmake
 make
-./Mimosa
+./mimosa
 ```
 
 ## Meet the Mimosa
