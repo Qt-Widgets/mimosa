@@ -241,7 +241,7 @@ void Mimosa::downloadFinished(QNetworkReply *reply){
 }
 
 void Mimosa::saveSession(){
-    QFile file(".downloadManagerSession");
+    QFile file(".mimosa_session");
 
     if(file.open(QIODevice::WriteOnly)){
         QDataStream stream(&file);
@@ -265,7 +265,7 @@ void Mimosa::saveSession(){
 }
 
 void Mimosa::loadSession(){
-    QFile file(".downloadManagerSession");
+    QFile file(".mimosa_session");
 
     if(file.open(QIODevice::ReadOnly)){
         QDataStream stream(&file);
