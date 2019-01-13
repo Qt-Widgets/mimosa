@@ -4,7 +4,13 @@ Mimosa is an advantageous download manager to help you to easily track downloadi
 
 ## Dependency
 
-Mimosa requires [Qt5](https://www.qt.io/download) to work.
+- [Qt5](https://www.qt.io/download)
+	- qt5-base
+
+### Pacman
+```base
+sudo pacman -S qt5-base
+```
 
 ## Install
 
