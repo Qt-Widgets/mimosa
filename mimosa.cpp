@@ -10,6 +10,7 @@
 #include <QHBoxLayout>
 #include <QCheckBox>
 #include <QSettings>
+#include <QDir>
 
 
 Mimosa::Mimosa(QWidget *parent)
@@ -241,7 +242,7 @@ void Mimosa::downloadFinished(QNetworkReply *reply){
 }
 
 void Mimosa::saveSession(){
-    QFile file(".mimosa_session");
+    QFile file(tr("%1/%2").arg(QDir::homePath()).arg(".mimosa_session"));
 
     if(file.open(QIODevice::WriteOnly)){
         QDataStream stream(&file);
@@ -265,7 +266,7 @@ void Mimosa::saveSession(){
 }
 
 void Mimosa::loadSession(){
-    QFile file(".mimosa_session");
+    QFile file(tr("%1/%2").arg(QDir::homePath()).arg(".mimosa_session"));
 
     if(file.open(QIODevice::ReadOnly)){
         QDataStream stream(&file);
