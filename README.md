@@ -12,15 +12,7 @@ Mimosa is an advantageous download manager to help you to easily track downloadi
 sudo pacman -S qt5-base
 ```
 
-## Install
-
-You can use installer or build Mimosa from scratch.
-
-### Installer
-
-Get the Mimosa installer from [here](https://github.com/blooser/Mimosa/releases)
-
-### Build and run
+## Build and run
 
 Make sure you have already <b>build-essential</b> package installed, it is essential to build and run.
 
