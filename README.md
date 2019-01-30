@@ -25,6 +25,12 @@ make
 ./mimosa
 ```
 
+#### Mimosa is also on Archlinux User Repository
+
+You can download and build it with your preferred AUR package manager.
+
+Package: https://aur.archlinux.org/packages/mimosa/
+
 ## Meet the Mimosa
 
 ![mimosa](https://i.postimg.cc/qvyC53HK/mimosa.png)
