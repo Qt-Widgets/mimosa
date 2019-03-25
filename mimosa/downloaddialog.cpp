@@ -16,6 +16,7 @@ void DownloadDialog::setup(){
 
     downloadUrl = new QLineEdit;
     downloadUrl->setPlaceholderText(tr("Download url"));
+    downloadUrl->setToolTip("Insert URL for data files to download");
     dataLayout->addWidget(downloadUrl, 0, 1);
 
     QHBoxLayout *buttonsLayout;
