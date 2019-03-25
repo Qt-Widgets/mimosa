@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/">
+        <file>mimosa/icons/mimosa.png</file>
+        <file>mimosa/downloaddialog.cpp</file>
+        <file>mimosa/downloaddialog.h</file>
+        <file>mimosa/downloaditemdelegate.cpp</file>
+        <file>mimosa/downloaditemdelegate.h</file>
+        <file>mimosa/downloadprocess.cpp</file>
+        <file>mimosa/downloadprocess.h</file>
+        <file>mimosa/downloadtable.cpp</file>
+        <file>mimosa/downloadtable.h</file>
+        <file>mimosa/main.cpp</file>
+        <file>mimosa/mainwindow.cpp</file>
+        <file>mimosa/mainwindow.h</file>
+        <file>mimosa/mimosa.cpp</file>
+        <file>mimosa/mimosa.h</file>
+    </qresource>
+</RCC>

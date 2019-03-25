@@ -24,7 +24,7 @@ inline bool singleDownloadInfo::operator ==(const singleDownloadInfo & download)
 class DownloadTable : public QAbstractTableModel{
     Q_OBJECT
 public:
-    DownloadTable(QObject *parent = 0);
+    DownloadTable(QObject *parent = nullptr);
     int rowCount(const QModelIndex &parent) const override;
     int columnCount(const QModelIndex &parent) const override;
     int getRowOfDownloadByName(const QString&) const;

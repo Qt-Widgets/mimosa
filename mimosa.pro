@@ -3,21 +3,21 @@ QT = core gui network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 HEADERS += \
-    mainwindow.h \
-    downloaddialog.h \
-    downloadprocess.h \
-    downloadtable.h \
-    mimosa.h \
-    downloaditemdelegate.h
+    mimosa/mainwindow.h \
+    mimosa/downloaddialog.h \
+    mimosa/downloadprocess.h \
+    mimosa/downloadtable.h \
+    mimosa/mimosa.h \
+    mimosa/downloaditemdelegate.h
 
 SOURCES += \
-    mainwindow.cpp \
-    main.cpp \
-    downloaddialog.cpp \
-    downloadprocess.cpp \
-    mimosa.cpp \
-    downloadtable.cpp \
-    downloaditemdelegate.cpp
+    mimosa/mainwindow.cpp \
+    mimosa/main.cpp \
+    mimosa/downloaddialog.cpp \
+    mimosa/downloadprocess.cpp \
+    mimosa/mimosa.cpp \
+    mimosa/downloadtable.cpp \
+    mimosa/downloaditemdelegate.cpp
 
 RESOURCES += \
-    icons.qrc
+    mimosa.qrc
