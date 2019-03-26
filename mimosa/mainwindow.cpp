@@ -65,7 +65,7 @@ void MainWindow::setup(){
     connect(remove, SIGNAL(triggered(bool)), mimosa, SLOT(remove()));
 
     trayIcon = new QSystemTrayIcon(this);
-    trayIcon->setIcon(QIcon(":/mimosa/icons/mimosa.png"));
+    trayIcon->setIcon(QIcon(":/resources/mimosa.png"));
     trayIcon->setToolTip("Click to show Mimosa");
     trayIcon->setContextMenu(fileMenu);
     trayIcon->show();
