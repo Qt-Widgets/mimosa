@@ -3,7 +3,6 @@
 
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QDesktopWidget>
-#include <QPropertyAnimation>
 #include <QApplication>
 #include <QRect>
 #include <QStatusBar>
@@ -17,7 +16,6 @@ MainWindow::MainWindow(){
     setCentralWidget(mimosa);
     setup();
     loadSettings();
-    startUpAnimation();
 
     connect(mimosa, SIGNAL(processExist(bool, bool)),
             this, SLOT(updateDownloadAction(bool, bool)));
@@ -124,15 +122,6 @@ void MainWindow::trayIconActivated(QSystemTrayIcon::ActivationReason reason){
         default:
             break;
     }
-}
-
-void MainWindow::startUpAnimation(){
-    QPropertyAnimation *fadein_animation = new QPropertyAnimation(this, "windowOpacity", this);
-
-    fadein_animation->setStartValue(0);
-    fadein_animation->setEndValue(1);
-    fadein_animation->setDuration(410);
-    fadein_animation->start();
 }
 
 void MainWindow::saveSettings(){

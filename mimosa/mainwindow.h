@@ -14,7 +14,6 @@ public:
     MainWindow();
     ~MainWindow();
 protected:
-    void startUpAnimation();
     void saveSettings();
     void loadSettings();
     void closeEvent(QCloseEvent*);
