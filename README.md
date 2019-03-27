@@ -24,9 +24,10 @@ git clone https://github.com/blooser/mimosa.git
 cd mimosa/
 ```
 
-Build.
+Enter source code directory and build.
 
 ```zsh
+cd mimosa/
 qmake
 make
 ```
