@@ -47,7 +47,7 @@ Package: https://aur.archlinux.org/packages/mimosa/
 
 ## Meet the Mimosa
 
-![mimosa](https://i.postimg.cc/qvyC53HK/mimosa.png)
+![mimosa](https://i.postimg.cc/ydBM0Zdd/mimosa1.png)
 
 ## License
 
