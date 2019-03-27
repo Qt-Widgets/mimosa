@@ -133,7 +133,7 @@ void MainWindow::trayIconActivated(QSystemTrayIcon::ActivationReason reason){
 
 void MainWindow::about(){
     QMessageBox::about(this,
-                       tr("About Mimosa - 1.1.2"),
+                       tr("About Mimosa - 1.2"),
                        tr("<p style='text-align: center;'>Advantageous download manager to keep all the downloads.<br><br>"
                           "This software is written in C++ and Qt.<br><br>"
                           "<b>Author: </b>blooser<br>"
