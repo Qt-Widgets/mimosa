@@ -34,7 +34,7 @@ void DownloadDialog::setup(){
     mainLayout->addLayout(dataLayout);
 
     setWindowTitle(tr("New Download"));
-    resize(270, 100);
+    resize(450, 100);
     setLayout(mainLayout);
 
     connect(okButton, SIGNAL(clicked(bool)), this, SLOT(accept()));
