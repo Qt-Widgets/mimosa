@@ -158,6 +158,7 @@ void Mimosa::remove(){
 
     QMessageBox removeFileQuestionBox;
 
+    removeFileQuestionBox.setWindowTitle("Remove");
     removeFileQuestionBox.setText(tr("Remove %1?").arg(filename));
     removeFileQuestionBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     removeFileQuestionBox.resize(550, 300);
