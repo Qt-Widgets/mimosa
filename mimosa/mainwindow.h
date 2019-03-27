@@ -21,6 +21,7 @@ private slots:
     void newDownload();
     void updateDownloadAction(bool, bool);
     void trayIconActivated(QSystemTrayIcon::ActivationReason);
+    void about();
 private:
     Mimosa *mimosa = nullptr;
     void setup();

@@ -6,6 +6,7 @@
 #include <QApplication>
 #include <QRect>
 #include <QStatusBar>
+#include <QMessageBox>
 #include <QSettings>
 
 
@@ -69,6 +70,13 @@ void MainWindow::setup(){
 
     connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
+
+    QMenu *helpMenu = menuBar()->addMenu("Help");
+
+    auto aboutAction = new QAction("About", this);
+    helpMenu->addAction(aboutAction);
+
+    connect(aboutAction, SIGNAL(triggered(bool)), this, SLOT(about()));
 }
 
 void MainWindow::newDownload(){
@@ -121,6 +129,18 @@ void MainWindow::trayIconActivated(QSystemTrayIcon::ActivationReason reason){
         default:
             break;
     }
+}
+
+void MainWindow::about(){
+    QMessageBox::about(this,
+                       tr("About Mimosa - 1.1.2"),
+                       tr("<p style='text-align: center;'>Advantageous download manager to keep all the downloads.<br><br>"
+                          "This software is written in C++ and Qt.<br><br>"
+                          "<b>Author: </b>blooser<br>"
+                          "<b>E-mail: </b>Blooser@protonmail.com<br>"
+                          "<b>License: </b>MIT<br>"
+                          "<b>Source code: </b><a href='https://github.com/blooser/mimosa'>https://github.com/blooser/mimosa</a>")
+                       );
 }
 
 void MainWindow::saveSettings(){
