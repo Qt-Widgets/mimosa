@@ -156,15 +156,16 @@ void Mimosa::remove(){
     int row = selected.first;
     QString filename = selected.second;
 
-    QMessageBox questionBox;
-    questionBox.setText(tr("Remove %1?").arg(filename));
-    questionBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-    questionBox.resize(550, 300);
+    QMessageBox removeFileQuestionBox;
+
+    removeFileQuestionBox.setText(tr("Remove %1?").arg(filename));
+    removeFileQuestionBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    removeFileQuestionBox.resize(550, 300);
 
     auto removeFilesCheckBox = new QCheckBox("Remove file");
-    questionBox.setCheckBox(removeFilesCheckBox);
+    removeFileQuestionBox.setCheckBox(removeFilesCheckBox);
 
-    auto reply = questionBox.exec();
+    auto reply = removeFileQuestionBox.exec();
     if(reply == QMessageBox::Yes){
         if(downloads.contains(filename)){
             if(downloads[filename]->isRunning()) downloads[filename]->abort();
@@ -174,7 +175,7 @@ void Mimosa::remove(){
         downloadTable->removeRows(row, 1, QModelIndex());
         checkIfProcessExist(QModelIndex());
 
-        if(questionBox.checkBox()->checkState() == Qt::Checked){
+        if(removeFileQuestionBox.checkBox()->checkState() == Qt::Checked){
             QDir fileRemover;
             fileRemover.remove(fileRemover.filePath(filename));
         }
@@ -302,7 +303,7 @@ void Mimosa::loadSettings(){
     QSettings settings;
 
     settings.beginGroup("Mimosa");
-    this->horizontalHeader()->restoreState(settings.value("tableSizes").toByteArray());
+    this->horizontalHeader()->restoreState(settings.value("tableSize").toByteArray());
     settings.endGroup();
 }
 
@@ -310,6 +311,6 @@ void Mimosa::saveSettings(){
     QSettings settings;
 
     settings.beginGroup("Mimosa");
-    settings.setValue("tableSizes", this->horizontalHeader()->saveState());
+    settings.setValue("tableSize", this->horizontalHeader()->saveState());
     settings.endGroup();
 }
