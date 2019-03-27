@@ -9,7 +9,6 @@
 #include <QSettings>
 
 
-
 MainWindow::MainWindow(){
     mimosa = new Mimosa;
     setWindowTitle("Mimosa");

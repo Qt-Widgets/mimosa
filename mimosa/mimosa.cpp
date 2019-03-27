@@ -192,7 +192,6 @@ bool Mimosa::saveToDisk(const QString & filename, QIODevice *data){
     return true;
 }
 
-
 void Mimosa::insertDownloadingFilenameInTable(const QString filename){
     downloadTable->insertRows(0, 1, QModelIndex());
     QModelIndex index = downloadTable->index(0, 0, QModelIndex());
