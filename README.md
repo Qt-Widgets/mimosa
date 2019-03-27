@@ -6,7 +6,7 @@ Mimosa is an advantageous download manager to help you to easily track downloadi
 
 - qt5-base
 
-### Pacman
+### Install packages 
 
 ```base
 sudo pacman -S qt5-base
@@ -16,12 +16,26 @@ sudo pacman -S qt5-base
 
 Make sure you have already <b>build-essential</b> package installed, it is essential to build and run.
 
-```bash
+Git clone the repository.
+
+```zsh
 cd ~/
 git clone https://github.com/blooser/mimosa.git
 cd mimosa/
+```
+
+Build.
+
+```zsh
 qmake
 make
+```
+
+<b>That's all!</b>
+
+Run the Mimosa.
+
+```zsh
 ./mimosa
 ```
 
