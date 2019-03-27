@@ -15,7 +15,7 @@ void DownloadDialog::setup(){
     dataLayout = new QGridLayout;
 
     downloadUrl = new QLineEdit;
-    downloadUrl->setPlaceholderText(tr("Download url"));
+    downloadUrl->setPlaceholderText(tr("Download URL"));
     downloadUrl->setToolTip("Insert URL for data files to download");
     dataLayout->addWidget(downloadUrl, 0, 1);
 

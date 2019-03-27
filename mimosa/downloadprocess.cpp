@@ -60,7 +60,7 @@ QString DownloadProcess::timeHuman(const int secondsToFinishDownload){
     QString minutesFormat = minutes < 10 ? "0" + QString::number(minutes) : QString::number(minutes);
     QString hoursFormat = hours < 10 ? "0" + QString::number(hours) : QString::number(hours);
 
-    return hoursFormat + ":" + minutesFormat + ":" + secondsFormat;
+    return tr("%1:%2:%3").arg(hoursFormat).arg(minutesFormat).arg(secondsFormat);
 }
 
 void DownloadProcess::downloadProgress(qint64 received, qint64 total){

@@ -26,7 +26,7 @@ void DownloadItemDelegate::paint(QPainter *painter,
             progressbar.minimum = 0;
             progressbar.maximum = 100;
             progressbar.progress = progress;
-            progressbar.text = tr("%1%2").arg(progress).arg("%");
+            progressbar.text = tr("%1%").arg(progress);
             if(progress == 100) progressbar.palette.setBrush(QPalette::Highlight, QColor(37, 142, 37));
         } else{
             progressbar.invertedAppearance = true;
